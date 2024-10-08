@@ -41,23 +41,29 @@
 
 <script>
     const apiKey = "6e13de32029e6849fe0dc7954ae5595c";
-    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q=new%20york";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q=";
 
-    async function checkWeather(){
-        const response = await fetch(apiUrl + `&appid=${apiKey}`);
+    const searchBox = document.querySelector(".search input");
+    const searchBtn = document.querySelector(".search button");
+
+    async function checkWeather(city){
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
         var data = await response.json();
 
         console.log(data);
 
         document.querySelector(".city").innerHTML = data.name;
-        document.querySelector(".temp").innerHTML = data.main.temp + "°F";
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°F";
         document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
         document.querySelector(".wind").innerHTML = data.wind.speed + " m/h";
 
 
     }
 
-checkWeather();
+    searchBtn.addEventListener("click", () => {
+        checkWeather(searchBox.value);
+    })
+
 </script>
     
 </body>
